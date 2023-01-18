@@ -31,13 +31,11 @@ void UObstacleComponent::setupCollision()
 
 void UObstacleComponent::OnBeginOverlap(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_component, int32 body_index, bool from_sweep, const FHitResult& hit_result)
 {
-	if (GEngine) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Overlapped actor ") + other_actor->GetName());
-	}
-
-	if (is_actor_valid(other_actor, other_component) && is_actor_able_to_parkour) {
+	if (is_actor_valid(other_actor, other_component) && is_actor_able_to_parkour()) {
 		if (other_actor->ActorHasTag("Obstacle")) {
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Obstacle"));
+			if (GEngine) {
+				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Parkour!"));
+			}
 		}
     }
 }
