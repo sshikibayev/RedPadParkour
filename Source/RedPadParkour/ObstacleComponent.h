@@ -25,6 +25,9 @@ private:
 	UFUNCTION()
 	void OnBeginOverlap(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_component, int32 body_index, bool from_sweep, const FHitResult& hit_result);
 
+	bool is_actor_valid(AActor* other_actor, UPrimitiveComponent* other_component);
+	bool is_actor_able_to_parkour();
+
 	UFUNCTION()
 	void OnEndOverlap(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_component, int32 body_index);
 

@@ -1,10 +1,10 @@
 #include "ObstacleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 UObstacleComponent::UObstacleComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 }
-
 
 void UObstacleComponent::BeginPlay()
 {
@@ -32,8 +32,27 @@ void UObstacleComponent::setupCollision()
 void UObstacleComponent::OnBeginOverlap(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_component, int32 body_index, bool from_sweep, const FHitResult& hit_result)
 {
 	if (GEngine) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Overlapped begin"));
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Overlapped actor ") + other_actor->GetName());
 	}
+
+	if (is_actor_valid(other_actor, other_component) && is_actor_able_to_parkour) {
+		if (other_actor->ActorHasTag("Obstacle")) {
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Obstacle"));
+		}
+    }
+}
+
+bool UObstacleComponent::is_actor_valid(AActor* other_actor, UPrimitiveComponent* other_component)
+{
+	return other_actor && other_actor != GetOwner() && other_component;
+}
+
+bool UObstacleComponent::is_actor_able_to_parkour()
+{
+	auto character_movement_component = GetOwner()->FindComponentByClass<UCharacterMovementComponent>();
+	bool is_grounded = character_movement_component->IsMovingOnGround();
+
+	return is_grounded;
 }
 
 void UObstacleComponent::OnEndOverlap(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_component, int32 body_index)
