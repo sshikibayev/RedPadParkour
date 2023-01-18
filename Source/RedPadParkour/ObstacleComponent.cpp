@@ -38,7 +38,7 @@ void UObstacleComponent::OnBeginOverlap(UPrimitiveComponent* overlapped_componen
 				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Parkour!"));
 			}
 			auto obstacle = Cast<AObstacle>(other_actor);
-			obstacle->printMessage();
+			obstacle->interact();
 		}
     }
 }
