@@ -12,9 +12,8 @@ enum class ObstacleType : uint8 {
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Animation/AnimSequence.h"
-#include "Animation/AnimationAsset.h"
 #include "GameFramework/CharacterMovementComponent.h"
+
 #include "Obstacle.generated.h"
 
 
@@ -29,13 +28,7 @@ public:
 	void interact(UCharacterMovementComponent* movement_component);
 
 	UPROPERTY(EditAnywhere, Category = "Obstacle type")
-	TEnumAsByte<ObstacleType> obstacle_type;
-
-	UPROPERTY(EditAnywhere, Category = "Animation type")
-	UAnimSequence* anim_sequence;
-	UPROPERTY(EditAnywhere, Category = "Animation type")
-	UAnimationAsset* anim_asset;
-
+	ObstacleType obstacle_type;
 
 protected:
 	virtual void BeginPlay() override;

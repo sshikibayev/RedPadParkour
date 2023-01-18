@@ -36,7 +36,7 @@ void AObstacle::thinSmallObstacle()
 {
 	if (obstacle_type == ObstacleType::ThinSmall) {
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Orange, TEXT("Obstacle is small and thin!"));
-		movement_component_from_interaction->DoJump(true);
+		movement_component_from_interaction->DoJump(false);
 	}
 }
 
