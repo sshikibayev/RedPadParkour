@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Components/BoxComponent.h"
-
+#include "Obstacle.h"
 #include "ObstacleComponent.generated.h"
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -20,6 +20,10 @@ protected:
 
 private:
 	AActor* owner;
+	FName obstacle_tag{ "obstacle" };
+
+	AObstacle* interacted_obstacle;
+	APlayerController* player_controller;
 
 	UPROPERTY(VisibleAnywhere)
 	UBoxComponent* collision_box;
@@ -34,4 +38,7 @@ private:
 	void OnEndOverlap(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_component, int32 body_index);
 
 	void setupCollision();
+	void startInteraction();
+	void enableInput();
+	void disableInput();
 };

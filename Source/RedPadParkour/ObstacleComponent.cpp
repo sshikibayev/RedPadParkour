@@ -1,6 +1,5 @@
 #include "ObstacleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "Obstacle.h"
 
 UObstacleComponent::UObstacleComponent()
 {
@@ -31,15 +30,19 @@ void UObstacleComponent::setupCollision()
 	}
 }
 
+void UObstacleComponent::startInteraction() {
+	if (interacted_obstacle) {
+		interacted_obstacle->interact(owner->FindComponentByClass<UCharacterMovementComponent>());
+	}
+}
+
 void UObstacleComponent::OnBeginOverlap(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_component, int32 body_index, bool from_sweep, const FHitResult& hit_result)
 {
 	if (is_actor_valid(other_actor, other_component) && is_actor_able_to_parkour()) {
-		if (other_actor->ActorHasTag("Obstacle")) {
-			if (GEngine) {
-				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Parkour!"));
-			}
-			auto obstacle = Cast<AObstacle>(other_actor);
-			obstacle->interact(owner->FindComponentByClass<UCharacterMovementComponent>());
+		if (other_actor->ActorHasTag(obstacle_tag)) {
+			interacted_obstacle = Cast<AObstacle>(other_actor);
+			startInteraction();
+			disableInput();
 		}
     }
 }
@@ -57,9 +60,27 @@ bool UObstacleComponent::is_actor_able_to_parkour()
 	return is_grounded;
 }
 
+void UObstacleComponent::enableInput()
+{
+	if (GetWorld()) {
+		player_controller = GetWorld()->GetFirstPlayerController();
+		owner->EnableInput(player_controller);
+	}
+}
+
+void UObstacleComponent::disableInput()
+{
+	if (GetWorld()) {
+		player_controller = GetWorld()->GetFirstPlayerController();
+		owner->DisableInput(player_controller);
+	}
+}
+
 void UObstacleComponent::OnEndOverlap(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_component, int32 body_index)
 {
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Overlapped end"));
 	}
+
+	enableInput();
 }
