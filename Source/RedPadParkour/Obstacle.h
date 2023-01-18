@@ -11,6 +11,7 @@ class REDPADPARKOUR_API AObstacle : public AActor
 	
 public:	
 	AObstacle();
+	void printMessage();
 
 protected:
 	virtual void BeginPlay() override;

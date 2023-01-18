@@ -1,5 +1,6 @@
 #include "ObstacleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Obstacle.h"
 
 UObstacleComponent::UObstacleComponent()
 {
@@ -36,6 +37,8 @@ void UObstacleComponent::OnBeginOverlap(UPrimitiveComponent* overlapped_componen
 			if (GEngine) {
 				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Parkour!"));
 			}
+			auto obstacle = Cast<AObstacle>(other_actor);
+			obstacle->printMessage();
 		}
     }
 }
