@@ -12,7 +12,11 @@ enum class ObstacleType : uint8 {
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Animation/AnimSequence.h"
+#include "Animation/AnimationAsset.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Obstacle.generated.h"
+
 
 UCLASS()
 class REDPADPARKOUR_API AObstacle : public AActor
@@ -22,15 +26,23 @@ class REDPADPARKOUR_API AObstacle : public AActor
 public:	
 	AObstacle();
 	virtual void Tick(float DeltaTime) override;
-	void interact();
+	void interact(UCharacterMovementComponent* movement_component);
 
 	UPROPERTY(EditAnywhere, Category = "Obstacle type")
 	TEnumAsByte<ObstacleType> obstacle_type;
+
+	UPROPERTY(EditAnywhere, Category = "Animation type")
+	UAnimSequence* anim_sequence;
+	UPROPERTY(EditAnywhere, Category = "Animation type")
+	UAnimationAsset* anim_asset;
+
 
 protected:
 	virtual void BeginPlay() override;
 
 private:
+	UCharacterMovementComponent* movement_component_from_interaction;
+
 	void obstacleTypeSelector();
 	void thinSmallObstacle();
 	void thinMediumObstacle();

@@ -11,6 +11,7 @@ void UObstacleComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	owner = GetOwner();
 	setupCollision();
 }
 
@@ -21,7 +22,7 @@ void UObstacleComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 
 void UObstacleComponent::setupCollision()
 {
-	collision_box = GetOwner()->FindComponentByClass<UBoxComponent>();
+	collision_box = owner->FindComponentByClass<UBoxComponent>();
 	if (collision_box) {
 		collision_box->SetCollisionProfileName(TEXT("Trigger"));
 
@@ -38,19 +39,19 @@ void UObstacleComponent::OnBeginOverlap(UPrimitiveComponent* overlapped_componen
 				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("Parkour!"));
 			}
 			auto obstacle = Cast<AObstacle>(other_actor);
-			obstacle->interact();
+			obstacle->interact(owner->FindComponentByClass<UCharacterMovementComponent>());
 		}
     }
 }
 
 bool UObstacleComponent::is_actor_valid(AActor* other_actor, UPrimitiveComponent* other_component)
 {
-	return other_actor && other_actor != GetOwner() && other_component;
+	return other_actor && other_actor != owner && other_component;
 }
 
 bool UObstacleComponent::is_actor_able_to_parkour()
 {
-	auto character_movement_component = GetOwner()->FindComponentByClass<UCharacterMovementComponent>();
+	auto character_movement_component = owner->FindComponentByClass<UCharacterMovementComponent>();
 	bool is_grounded = character_movement_component->IsMovingOnGround();
 
 	return is_grounded;

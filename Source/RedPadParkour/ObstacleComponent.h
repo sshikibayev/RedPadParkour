@@ -19,6 +19,8 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	AActor* owner;
+
 	UPROPERTY(VisibleAnywhere)
 	UBoxComponent* collision_box;
 
