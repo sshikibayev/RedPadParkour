@@ -18,10 +18,6 @@ void AObstacle::Tick(float DeltaTime)
 
 void AObstacle::interact()
 {
-	if (GEngine) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Orange, TEXT("Obstacle is here!"));
-	}
-
 	obstacleTypeSelector();
 }
 
