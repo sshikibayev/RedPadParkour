@@ -42,7 +42,7 @@ void UObstacleComponent::OnBeginOverlap(UPrimitiveComponent* overlapped_componen
 		if (other_actor->ActorHasTag(obstacle_tag)) {
 			interacted_obstacle = Cast<AObstacle>(other_actor);
 			startInteraction();
-			disableInput();
+			//disableInput();
 		}
     }
 }
@@ -64,7 +64,8 @@ void UObstacleComponent::enableInput()
 {
 	if (GetWorld()) {
 		player_controller = GetWorld()->GetFirstPlayerController();
-		owner->EnableInput(player_controller);
+		auto pawn = player_controller->GetPawn();
+		pawn->EnableInput(player_controller);
 	}
 }
 
@@ -72,7 +73,8 @@ void UObstacleComponent::disableInput()
 {
 	if (GetWorld()) {
 		player_controller = GetWorld()->GetFirstPlayerController();
-		owner->DisableInput(player_controller);
+		auto pawn = player_controller->GetPawn();
+		pawn->DisableInput(player_controller);
 	}
 }
 
@@ -82,5 +84,5 @@ void UObstacleComponent::OnEndOverlap(UPrimitiveComponent* overlapped_component,
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Overlapped end"));
 	}
 
-	enableInput();
+	//enableInput();
 }

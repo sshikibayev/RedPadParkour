@@ -1,13 +1,13 @@
 #pragma once
 
 UENUM(BlueprintType)
-enum class ObstacleType : uint8 {
-	ThinSmall	UMETA(DisplayName = "ThinSmall"),
-	ThinMedium	UMETA(DisplayName = "ThinMedium"),
-	ThinHuge	UMETA(DisplayName = "ThinHuge"),
-	WideSmall	UMETA(DisplayName = "WideSmall"),
-	WideMedium	UMETA(DisplayName = "WideMedium"),
-	WideHuge	UMETA(DisplayName = "WideHuge"),
+enum ObstacleType{
+	ThinSmall = 0	UMETA(DisplayName = "ThinSmall"),
+	ThinMedium = 1	UMETA(DisplayName = "ThinMedium"),
+	ThinHuge = 2	UMETA(DisplayName = "ThinHuge"),
+	WideSmall = 3	UMETA(DisplayName = "WideSmall"),
+	WideMedium = 4	UMETA(DisplayName = "WideMedium"),
+	WideHuge = 5	UMETA(DisplayName = "WideHuge"),
 };
 
 #include "CoreMinimal.h"
@@ -28,7 +28,7 @@ public:
 	void interact(UCharacterMovementComponent* movement_component);
 
 	UPROPERTY(EditAnywhere, Category = "Obstacle type")
-	ObstacleType obstacle_type;
+	TEnumAsByte <ObstacleType> obstacle_type;
 
 protected:
 	virtual void BeginPlay() override;
