@@ -31,6 +31,8 @@ private:
 	AStateSwitcher* state_switcher;
 	UPROPERTY()
 	TArray<AActor*> found_switchers;
+	UPROPERTY()
+	UCharacterMovementComponent* movement_component;
 
 	FName obstacle_tag{ "obstacle" };
 	bool is_interaction_started{ false };

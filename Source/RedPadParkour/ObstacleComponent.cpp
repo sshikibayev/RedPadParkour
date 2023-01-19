@@ -11,6 +11,7 @@ void UObstacleComponent::BeginPlay()
 	Super::BeginPlay();
 
 	owner = GetOwner();
+	movement_component = owner->FindComponentByClass<UCharacterMovementComponent>();
 	setupCollision();
 	if (GetWorld()) {
 		findSwitcher();
@@ -66,7 +67,7 @@ void UObstacleComponent::OnBeginOverlap(UPrimitiveComponent* overlapped_componen
 void UObstacleComponent::startInteraction() {
 	if (interacted_obstacle && !is_interaction_started) {
 		is_interaction_started = true;
-		interacted_obstacle->interact(owner->FindComponentByClass<UCharacterMovementComponent>());
+		interacted_obstacle->interact(movement_component);
 	}
 }
 

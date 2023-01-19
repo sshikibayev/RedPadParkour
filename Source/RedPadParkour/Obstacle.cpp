@@ -107,4 +107,3 @@ void AObstacle::playerPushForwardUpLogic()
 	FVector force_thru_obstacle = (player_forward_vector * push_velocity_forward) + (player_up_vector * push_velocity_up) + current_location;
 	player->SetActorLocation(force_thru_obstacle);
 }
-
