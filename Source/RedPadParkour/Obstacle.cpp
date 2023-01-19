@@ -65,7 +65,13 @@ void AObstacle::thinMediumObstacle()
 
 void AObstacle::thinHugeObstacle()
 {
-	UE_LOG(LogTemp, Warning, TEXT("thinHugeObstacle"));
+	auto mesh = movement_component_from_interaction->GetOwner()->FindComponentByClass<USkeletalMeshComponent>();
+
+	if (mesh) {
+		if (hand_jumping) {
+			//mesh->PlayAnimation(hand_jumping, false); //not the best way;
+		}
+	}
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Orange, TEXT("Obstacle is huge and thin!"));
 }

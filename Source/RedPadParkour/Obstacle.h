@@ -30,6 +30,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Obstacle type")
 	TEnumAsByte <ObstacleType> obstacle_type;
 
+	UPROPERTY(EditAnywhere)
+	class UAnimationAsset* hand_jumping;
+
 protected:
 	virtual void BeginPlay() override;
 

@@ -29,6 +29,8 @@ protected:
 
 private:
 	TEnumAsByte<StateType> state_type{ StateType::Active };
+	APawn* pawn;
+
 	void switchState();
 
 };

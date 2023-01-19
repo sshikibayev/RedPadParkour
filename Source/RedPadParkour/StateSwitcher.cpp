@@ -10,6 +10,9 @@ void AStateSwitcher::BeginPlay()
 	Super::BeginPlay();	
 
 	player_controller = GetWorld()->GetFirstPlayerController();
+	if (player_controller) {
+		pawn = player_controller->GetPawn();
+	}
 }
 
 void AStateSwitcher::Tick(float DeltaTime)
@@ -30,17 +33,17 @@ void AStateSwitcher::setState(StateType state)
 
 void AStateSwitcher::switchState()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Switch state: %s"), *pawn->GetName());
 	if (state_type == StateType::Active) {
-		if (GetWorld()) {
-			auto pawn = player_controller->GetPawn();
+		if (GetWorld() && pawn) {
 			pawn->EnableInput(player_controller);
-
+			UE_LOG(LogTemp, Warning, TEXT("Enable state"))
 		}
 	}
 	else {
-		if (GetWorld()) {	
-			auto pawn = player_controller->GetPawn();
+		if (GetWorld() && pawn) {
 			pawn->DisableInput(player_controller);
+			UE_LOG(LogTemp, Warning, TEXT("Disable state"))
 		}
 	}
 }
