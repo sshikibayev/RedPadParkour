@@ -35,19 +35,12 @@ void AStateSwitcher::switchState()
 			auto pawn = player_controller->GetPawn();
 			pawn->EnableInput(player_controller);
 
-			if (GEngine) {
-				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("State is active"));
-			}
 		}
 	}
 	else {
 		if (GetWorld()) {	
 			auto pawn = player_controller->GetPawn();
 			pawn->DisableInput(player_controller);
-
-			if (GEngine) {
-				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("State is Parkour"));
-			}
 		}
 	}
 }

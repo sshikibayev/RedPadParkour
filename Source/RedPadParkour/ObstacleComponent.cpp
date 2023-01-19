@@ -96,10 +96,6 @@ void UObstacleComponent::changeState(StateType state)
 
 void UObstacleComponent::OnEndOverlap(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_component, int32 body_index)
 {
-	if (GEngine) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Overlapped end"));
-	}
-
 	if (is_interaction_started) {
 		is_interaction_started = false;
 		changeState(StateType::Active);

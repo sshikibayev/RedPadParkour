@@ -54,16 +54,12 @@ void AObstacle::obstacleTypeSelector()
 
 void AObstacle::thinSmallObstacle()
 {
-	UE_LOG(LogTemp, Warning, TEXT("thinSmallObstacle"));
-
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, TEXT("Obstacle is small and thin!"));
 	movement_component_from_interaction->DoJump(false);
 }
 
 void AObstacle::thinMediumObstacle()
 {
-	UE_LOG(LogTemp, Warning, TEXT("thinMediumObstacle"));
-
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Orange, TEXT("Obstacle is medium and thin!"));	
 }
 
