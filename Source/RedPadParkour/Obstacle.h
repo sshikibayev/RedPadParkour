@@ -43,7 +43,6 @@ protected:
 
 private:
 	UCharacterMovementComponent* movement_component_from_interaction;
-
 	AActor* player;
 
 	void obstacleTypeSelector();
@@ -55,5 +54,4 @@ private:
 	void wideHugeObstacle();
 	void playerPushForwardLogic();
 	void playerPushForwardUpLogic();
-
 };

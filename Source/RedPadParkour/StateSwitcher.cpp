@@ -10,9 +10,7 @@ void AStateSwitcher::BeginPlay()
 	Super::BeginPlay();	
 
 	player_controller = GetWorld()->GetFirstPlayerController();
-	if (player_controller) {
-		pawn = player_controller->GetPawn();
-	}
+	setupPawn();
 }
 
 void AStateSwitcher::Tick(float DeltaTime)
@@ -31,16 +29,26 @@ void AStateSwitcher::setState(StateType state)
 	switchState();
 }
 
+void AStateSwitcher::setupPawn()
+{
+	if (player_controller) {
+		pawn = player_controller->GetPawn();
+	}
+}
+
 void AStateSwitcher::switchState()
 {
-	if (state_type == StateType::Active) {
-		if (GetWorld() && pawn) {
+	if (GetWorld() && pawn) {
+		switch (state_type)
+		{
+		case StateType::Active:
 			//pawn->EnableInput(player_controller);
-		}
-	}
-	else {
-		if (GetWorld() && pawn) {
+			break;
+		case StateType::Interaction:
 			//pawn->DisableInput(player_controller);
+			break;
+		default:
+			break;
 		}
 	}
 }

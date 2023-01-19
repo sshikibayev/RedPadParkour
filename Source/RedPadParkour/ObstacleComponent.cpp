@@ -12,7 +12,6 @@ void UObstacleComponent::BeginPlay()
 
 	owner = GetOwner();
 	setupCollision();
-
 	if (GetWorld()) {
 		findSwitcher();
 	}
