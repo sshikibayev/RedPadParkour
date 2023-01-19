@@ -42,7 +42,9 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	UPROPERTY()
 	UCharacterMovementComponent* movement_component_from_interaction;
+	UPROPERTY()
 	AActor* player;
 
 	void obstacleTypeSelector();

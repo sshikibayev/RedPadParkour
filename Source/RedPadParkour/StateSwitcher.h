@@ -19,6 +19,7 @@ public:
 	AStateSwitcher();
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY()
 	APlayerController* player_controller;
 
 	StateType getState();
@@ -29,6 +30,8 @@ protected:
 
 private:
 	TEnumAsByte<StateType> state_type{ StateType::Active };
+
+	UPROPERTY()
 	APawn* pawn;
 
 	void setupPawn();

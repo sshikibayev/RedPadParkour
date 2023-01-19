@@ -21,12 +21,18 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	UPROPERTY()
 	AActor* owner;
-	FName obstacle_tag{ "obstacle" };
+	UPROPERTY()
 	AObstacle* interacted_obstacle;
+	UPROPERTY()
 	UBoxComponent* collision_box;
+	UPROPERTY()
 	AStateSwitcher* state_switcher;
+	UPROPERTY()
 	TArray<AActor*> found_switchers;
+
+	FName obstacle_tag{ "obstacle" };
 	bool is_interaction_started{ false };
 
 	UFUNCTION()

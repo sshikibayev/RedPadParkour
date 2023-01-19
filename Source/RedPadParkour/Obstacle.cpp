@@ -21,7 +21,6 @@ void AObstacle::interact(UCharacterMovementComponent* movement_component)
 {
 	movement_component_from_interaction = movement_component;
 	player = movement_component_from_interaction->GetOwner();
-
 	obstacleTypeSelector();
 }
 
