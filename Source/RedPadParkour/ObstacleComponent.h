@@ -24,10 +24,10 @@ private:
 	AActor* owner;
 	FName obstacle_tag{ "obstacle" };
 	AObstacle* interacted_obstacle;
-	APlayerController* player_controller;
 	UBoxComponent* collision_box;
 	AStateSwitcher* state_switcher;
 	TArray<AActor*> found_switchers;
+	bool is_interaction_started{ false };
 
 	UFUNCTION()
 	void OnBeginOverlap(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_component, int32 body_index, bool from_sweep, const FHitResult& hit_result);
@@ -41,7 +41,5 @@ private:
 	void setupCollision();
 	void findSwitcher();
 	void startInteraction();
-	void enableInput();
-	void disableInput();
 	void changeState(StateType state);
 };

@@ -51,22 +51,24 @@ void UObstacleComponent::findSwitcher()
 	}
 }
 
-void UObstacleComponent::startInteraction() {
-	if (interacted_obstacle) {
-		interacted_obstacle->interact(owner->FindComponentByClass<UCharacterMovementComponent>());
-	}
-}
 
 void UObstacleComponent::OnBeginOverlap(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_component, int32 body_index, bool from_sweep, const FHitResult& hit_result)
 {
 	if (is_actor_valid(other_actor, other_component) && is_actor_able_to_parkour()) {
+		
 		if (other_actor->ActorHasTag(obstacle_tag)) {
 			interacted_obstacle = Cast<AObstacle>(other_actor);
 			startInteraction();
-			//disableInput();
 			changeState(StateType::Interaction);
 		}
     }
+}
+
+void UObstacleComponent::startInteraction() {
+	if (interacted_obstacle && !is_interaction_started) {
+		is_interaction_started = true;
+		interacted_obstacle->interact(owner->FindComponentByClass<UCharacterMovementComponent>());
+	}
 }
 
 bool UObstacleComponent::is_actor_valid(AActor* other_actor, UPrimitiveComponent* other_component)
@@ -82,28 +84,8 @@ bool UObstacleComponent::is_actor_able_to_parkour()
 	return is_grounded;
 }
 
-void UObstacleComponent::enableInput()
-{
-	if (GetWorld()) {
-		player_controller = GetWorld()->GetFirstPlayerController();
-		auto pawn = player_controller->GetPawn();
-		pawn->EnableInput(player_controller);
-	}
-}
-
-void UObstacleComponent::disableInput()
-{
-	if (GetWorld()) {
-		player_controller = GetWorld()->GetFirstPlayerController();
-		auto pawn = player_controller->GetPawn();
-		pawn->DisableInput(player_controller);
-	}
-}
-
 void UObstacleComponent::changeState(StateType state)
 {
-	UE_LOG(LogTemp, Error, TEXT("Change state laucnhed"));
-
 	if (state_switcher) {
 		state_switcher->setState(state);
 	}
@@ -118,6 +100,8 @@ void UObstacleComponent::OnEndOverlap(UPrimitiveComponent* overlapped_component,
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Overlapped end"));
 	}
 
-	//enableInput();
-	changeState(StateType::Active);
+	if (is_interaction_started) {
+		is_interaction_started = false;
+		changeState(StateType::Active);
+	}
 }
