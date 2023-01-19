@@ -30,6 +30,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Obstacle type")
 	TEnumAsByte <ObstacleType> obstacle_type;
 
+	UPROPERTY(EditAnywhere, Category = "Obstacle push")
+	float push_velocity_forward{ 100 };
+	UPROPERTY(EditAnywhere, Category = "Obstacle push")
+	float push_velocity_up{ 100 };
+
 	UPROPERTY(EditAnywhere)
 	class UAnimationAsset* hand_jumping;
 
@@ -39,6 +44,8 @@ protected:
 private:
 	UCharacterMovementComponent* movement_component_from_interaction;
 
+	AActor* player;
+
 	void obstacleTypeSelector();
 	void thinSmallObstacle();
 	void thinMediumObstacle();
@@ -46,4 +53,7 @@ private:
 	void wideSmallObstacle();
 	void wideMediumObstacle();
 	void wideHugeObstacle();
+	void playerPushForwardLogic();
+	void playerPushForwardUpLogic();
+
 };

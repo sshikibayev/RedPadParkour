@@ -33,17 +33,14 @@ void AStateSwitcher::setState(StateType state)
 
 void AStateSwitcher::switchState()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Switch state: %s"), *pawn->GetName());
 	if (state_type == StateType::Active) {
 		if (GetWorld() && pawn) {
-			pawn->EnableInput(player_controller);
-			UE_LOG(LogTemp, Warning, TEXT("Enable state"))
+			//pawn->EnableInput(player_controller);
 		}
 	}
 	else {
 		if (GetWorld() && pawn) {
-			pawn->DisableInput(player_controller);
-			UE_LOG(LogTemp, Warning, TEXT("Disable state"))
+			//pawn->DisableInput(player_controller);
 		}
 	}
 }
