@@ -12,6 +12,10 @@ void UObstacleComponent::BeginPlay()
 
 	owner = GetOwner();
 	setupCollision();
+
+	if (GetWorld()) {
+		findSwitcher();
+	}
 }
 
 void UObstacleComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -30,6 +34,23 @@ void UObstacleComponent::setupCollision()
 	}
 }
 
+void UObstacleComponent::findSwitcher()
+{
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AStateSwitcher::StaticClass(), found_switchers);
+
+	if (found_switchers.Num() <= 0) {
+		UE_LOG(LogTemp, Error, TEXT("No switchers were found"));
+	}
+	else if (found_switchers.Num() > 1) {
+		UE_LOG(LogTemp, Error, TEXT("More then one switcher were found"));
+	}
+	else {
+		for (auto switcher : found_switchers) {
+			state_switcher = Cast<AStateSwitcher>(switcher);
+		}
+	}
+}
+
 void UObstacleComponent::startInteraction() {
 	if (interacted_obstacle) {
 		interacted_obstacle->interact(owner->FindComponentByClass<UCharacterMovementComponent>());
@@ -43,6 +64,7 @@ void UObstacleComponent::OnBeginOverlap(UPrimitiveComponent* overlapped_componen
 			interacted_obstacle = Cast<AObstacle>(other_actor);
 			startInteraction();
 			//disableInput();
+			changeState(StateType::Interaction);
 		}
     }
 }
@@ -78,6 +100,18 @@ void UObstacleComponent::disableInput()
 	}
 }
 
+void UObstacleComponent::changeState(StateType state)
+{
+	UE_LOG(LogTemp, Error, TEXT("Change state laucnhed"));
+
+	if (state_switcher) {
+		state_switcher->setState(state);
+	}
+	else {
+		UE_LOG(LogTemp, Error, TEXT("StateSwitcher is obstacle component is not valid or empty"));
+	}
+}
+
 void UObstacleComponent::OnEndOverlap(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_component, int32 body_index)
 {
 	if (GEngine) {
@@ -85,4 +119,5 @@ void UObstacleComponent::OnEndOverlap(UPrimitiveComponent* overlapped_component,
 	}
 
 	//enableInput();
+	changeState(StateType::Active);
 }

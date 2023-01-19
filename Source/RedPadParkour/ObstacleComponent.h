@@ -4,6 +4,8 @@
 #include "Components/ActorComponent.h"
 #include "Components/BoxComponent.h"
 #include "Obstacle.h"
+#include "StateSwitcher.h"
+#include "Kismet/GameplayStatics.h"
 #include "ObstacleComponent.generated.h"
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -21,12 +23,11 @@ protected:
 private:
 	AActor* owner;
 	FName obstacle_tag{ "obstacle" };
-
 	AObstacle* interacted_obstacle;
 	APlayerController* player_controller;
-
-	UPROPERTY(VisibleAnywhere)
 	UBoxComponent* collision_box;
+	AStateSwitcher* state_switcher;
+	TArray<AActor*> found_switchers;
 
 	UFUNCTION()
 	void OnBeginOverlap(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_component, int32 body_index, bool from_sweep, const FHitResult& hit_result);
@@ -38,7 +39,9 @@ private:
 	void OnEndOverlap(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_component, int32 body_index);
 
 	void setupCollision();
+	void findSwitcher();
 	void startInteraction();
 	void enableInput();
 	void disableInput();
+	void changeState(StateType state);
 };
