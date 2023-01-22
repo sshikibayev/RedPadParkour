@@ -61,10 +61,6 @@ void UObstacleComponent::OnBeginOverlap(UPrimitiveComponent* overlapped_componen
 
 void UObstacleComponent::OnEndOverlap(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_component, int32 body_index)
 {
-	/*if (is_interaction_started) {
-		is_interaction_started = false;
-		changeState(StateType::Active);
-	}*/
 }
 
 bool UObstacleComponent::is_actor_valid(AActor* other_actor, UPrimitiveComponent* other_component)
