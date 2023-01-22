@@ -1,5 +1,4 @@
 #include "ObstacleComponent.h"
-#include "GameFramework/CharacterMovementComponent.h"
 
 UObstacleComponent::UObstacleComponent()
 {
@@ -12,6 +11,7 @@ void UObstacleComponent::BeginPlay()
 
 	owner = GetOwner();
 	movement_component = owner->FindComponentByClass<UCharacterMovementComponent>();
+
 	setupCollision();
 	if (GetWorld()) {
 		findSwitcher();
@@ -51,37 +51,36 @@ void UObstacleComponent::findSwitcher()
 	}
 }
 
-
 void UObstacleComponent::OnBeginOverlap(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_component, int32 body_index, bool from_sweep, const FHitResult& hit_result)
 {
 	if (is_actor_valid(other_actor, other_component) && is_actor_able_to_parkour()) {
-		
-		if (other_actor->ActorHasTag(obstacle_tag)) {
-			interacted_obstacle = Cast<AObstacle>(other_actor);
-			startInteraction();
-			changeState(StateType::Interaction);
-		}
+		startInteraction(other_actor);
     }
-}
-
-void UObstacleComponent::startInteraction() {
-	if (interacted_obstacle && !is_interaction_started) {
-		is_interaction_started = true;
-		interacted_obstacle->interact(movement_component);
-	}
 }
 
 bool UObstacleComponent::is_actor_valid(AActor* other_actor, UPrimitiveComponent* other_component)
 {
-	return other_actor && other_actor != owner && other_component;
+	bool is_actor_valid = other_actor && other_actor != owner && other_component;
+	bool is_actor_has_valid_tag = other_actor->ActorHasTag(obstacle_tag);
+	return is_actor_valid && is_actor_has_valid_tag;
 }
 
 bool UObstacleComponent::is_actor_able_to_parkour()
 {
-	auto character_movement_component = owner->FindComponentByClass<UCharacterMovementComponent>();
-	bool is_grounded = character_movement_component->IsMovingOnGround();
-
+	bool is_grounded = movement_component->IsMovingOnGround();
 	return is_grounded;
+}
+
+void UObstacleComponent::startInteraction(AActor* obstacle) {
+	if (obstacle && !is_interaction_started) {
+		is_interaction_started = true;
+		changeState(StateType::Interaction);
+		//TODO
+		interacted_obstacle = Cast<AObstacle>(obstacle);
+		auto interacted_obstacle2 = Cast<AObstacle>(obstacle);
+		interacted_obstacle2->interact(movement_component);
+		//
+	}
 }
 
 void UObstacleComponent::changeState(StateType state)
@@ -99,5 +98,6 @@ void UObstacleComponent::OnEndOverlap(UPrimitiveComponent* overlapped_component,
 	if (is_interaction_started) {
 		is_interaction_started = false;
 		changeState(StateType::Active);
+		UE_LOG(LogTemp, Error, TEXT("Overlap End"));
 	}
 }

@@ -6,6 +6,8 @@
 #include "Obstacle.h"
 #include "StateSwitcher.h"
 #include "Kismet/GameplayStatics.h"
+#include "GameFramework/CharacterMovementComponent.h"
+
 #include "ObstacleComponent.generated.h"
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
@@ -17,14 +19,16 @@ public:
 	UObstacleComponent();
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	AObstacle* interacted_obstacle;
+
 protected:
 	virtual void BeginPlay() override;
 
 private:
 	UPROPERTY()
 	AActor* owner;
-	UPROPERTY()
-	AObstacle* interacted_obstacle;
+	
 	UPROPERTY()
 	UBoxComponent* collision_box;
 	UPROPERTY()
@@ -46,6 +50,6 @@ private:
 	void findSwitcher();
 	bool is_actor_valid(AActor* other_actor, UPrimitiveComponent* other_component);
 	bool is_actor_able_to_parkour();
-	void startInteraction();
+	void startInteraction(AActor* obstacle);
 	void changeState(StateType state);
 };

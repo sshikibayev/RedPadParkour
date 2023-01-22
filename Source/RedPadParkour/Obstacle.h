@@ -25,6 +25,7 @@ class REDPADPARKOUR_API AObstacle : public AActor
 public:	
 	AObstacle();
 	virtual void Tick(float DeltaTime) override;
+
 	void interact(UCharacterMovementComponent* movement_component);
 
 	UPROPERTY(EditAnywhere, Category = "Obstacle type")
@@ -38,6 +39,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	class UAnimationAsset* hand_jumping;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool is_obstacle_thin_small{ false };
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -46,6 +50,9 @@ private:
 	UCharacterMovementComponent* movement_component_from_interaction;
 	UPROPERTY()
 	AActor* player;
+
+	FTimerHandle TimerHandle;
+	FRotator actor_rotation;
 
 	void obstacleTypeSelector();
 	void thinSmallObstacle();
@@ -56,4 +63,5 @@ private:
 	void wideHugeObstacle();
 	void playerPushForwardLogic();
 	void playerPushForwardUpLogic();
+	void switchAnimation();
 };
