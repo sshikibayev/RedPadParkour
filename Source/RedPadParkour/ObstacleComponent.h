@@ -8,9 +8,10 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "ObstacleType.h"
 #include "Obstacle.h"
-
+#include "ParkourActions.h"
 
 #include "ObstacleComponent.generated.h"
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class REDPADPARKOUR_API UObstacleComponent : public UActorComponent
@@ -22,7 +23,9 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool is_obstacle_thin_small{ false };
+	bool is_interaction_started{ false };
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TEnumAsByte<ObstacleType> current_obstacle_type;
 
 protected:
 	virtual void BeginPlay() override;
@@ -40,7 +43,7 @@ private:
 	UCharacterMovementComponent* movement_component;
 
 	FName obstacle_tag{ "obstacle" };
-	bool is_interaction_started{ false };
+	TSharedPtr<ParkourActions> parkour_actions;
 
 	UFUNCTION()
 	void OnBeginOverlap(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_component, int32 body_index, bool from_sweep, const FHitResult& hit_result);
@@ -53,12 +56,4 @@ private:
 	bool is_actor_able_to_parkour();
 	void startInteraction(AActor* obstacle);
 	void changeState(StateType state);
-
-	void obstacleTypeSelector(TEnumAsByte<ObstacleTypeEnum> obstacle_type);
-	void thinSmallObstacle();
-	void thinMediumObstacle();
-	void thinHugeObstacle();
-	void wideSmallObstacle();
-	void wideMediumObstacle();
-	void wideHugeObstacle();
 };

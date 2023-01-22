@@ -15,10 +15,10 @@ public:
 	AObstacle();
 	virtual void Tick(float DeltaTime) override;
 
-	TEnumAsByte <ObstacleTypeEnum> getObstacleType();
+	TEnumAsByte <ObstacleType> getObstacleType();
 
 	UPROPERTY(EditAnywhere, Category = "Obstacle type")
-	TEnumAsByte <ObstacleTypeEnum> obstacle_type;
+	TEnumAsByte <ObstacleType> obstacle_type;
 
 protected:
 	virtual void BeginPlay() override;

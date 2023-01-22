@@ -18,7 +18,7 @@ void AObstacle::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-TEnumAsByte<ObstacleTypeEnum> AObstacle::getObstacleType()
+TEnumAsByte<ObstacleType> AObstacle::getObstacleType()
 {
 	return obstacle_type;
 }

@@ -11,6 +11,7 @@ void UObstacleComponent::BeginPlay()
 
 	owner = GetOwner();
 	movement_component = owner->FindComponentByClass<UCharacterMovementComponent>();
+	parkour_actions = MakeShared<ParkourActions>();
 
 	setupCollision();
 	if (GetWorld()) {
@@ -84,7 +85,8 @@ void UObstacleComponent::startInteraction(AActor* obstacle) {
 		is_interaction_started = true;
 		changeState(StateType::Interaction);
 		auto interacted_obstacle = Cast<AObstacle>(obstacle);
-		obstacleTypeSelector(interacted_obstacle->getObstacleType());
+		current_obstacle_type = interacted_obstacle->getObstacleType();
+		parkour_actions->obstacleTypeSelector(interacted_obstacle->getObstacleType());
 	}
 }
 
@@ -96,56 +98,4 @@ void UObstacleComponent::changeState(StateType state)
 	else {
 		UE_LOG(LogTemp, Error, TEXT("StateSwitcher is obstacle component is not valid or empty"));
 	}
-}
-
-void UObstacleComponent::obstacleTypeSelector(TEnumAsByte<ObstacleTypeEnum> obstacle_type)
-{
-	switch (obstacle_type)
-	{
-	case ObstacleTypeEnum::ThinSmall:
-		thinSmallObstacle();
-		break;
-	case ObstacleTypeEnum::ThinMedium:
-		thinMediumObstacle();
-		break;
-	case ObstacleTypeEnum::ThinHuge:
-		thinHugeObstacle();
-		break;
-	case ObstacleTypeEnum::WideSmall:
-		wideSmallObstacle();
-		break;
-	case ObstacleTypeEnum::WideMedium:
-		wideMediumObstacle();
-		break;
-	case ObstacleTypeEnum::WideHuge:
-		wideHugeObstacle();
-		break;
-	default:
-		break;
-	}
-}
-
-void UObstacleComponent::thinSmallObstacle()
-{
-	is_obstacle_thin_small = true;//switching condition in BP of the char; 
-}
-
-void UObstacleComponent::thinMediumObstacle()
-{
-}
-
-void UObstacleComponent::thinHugeObstacle()
-{
-}
-
-void UObstacleComponent::wideSmallObstacle()
-{
-}
-
-void UObstacleComponent::wideMediumObstacle()
-{
-}
-
-void UObstacleComponent::wideHugeObstacle()
-{
 }
