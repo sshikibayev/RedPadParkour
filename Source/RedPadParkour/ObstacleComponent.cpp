@@ -58,6 +58,14 @@ void UObstacleComponent::OnBeginOverlap(UPrimitiveComponent* overlapped_componen
     }
 }
 
+void UObstacleComponent::OnEndOverlap(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_component, int32 body_index)
+{
+	if (is_interaction_started) {
+		is_interaction_started = false;
+		changeState(StateType::Active);
+	}
+}
+
 bool UObstacleComponent::is_actor_valid(AActor* other_actor, UPrimitiveComponent* other_component)
 {
 	bool is_actor_valid = other_actor && other_actor != owner && other_component;
@@ -75,11 +83,8 @@ void UObstacleComponent::startInteraction(AActor* obstacle) {
 	if (obstacle && !is_interaction_started) {
 		is_interaction_started = true;
 		changeState(StateType::Interaction);
-		//TODO
-		interacted_obstacle = Cast<AObstacle>(obstacle);
-		auto interacted_obstacle2 = Cast<AObstacle>(obstacle);
-		interacted_obstacle2->interact(movement_component);
-		//
+		auto interacted_obstacle = Cast<AObstacle>(obstacle);
+		obstacleTypeSelector(interacted_obstacle->getObstacleType());
 	}
 }
 
@@ -93,11 +98,54 @@ void UObstacleComponent::changeState(StateType state)
 	}
 }
 
-void UObstacleComponent::OnEndOverlap(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_component, int32 body_index)
+void UObstacleComponent::obstacleTypeSelector(TEnumAsByte<ObstacleTypeEnum> obstacle_type)
 {
-	if (is_interaction_started) {
-		is_interaction_started = false;
-		changeState(StateType::Active);
-		UE_LOG(LogTemp, Error, TEXT("Overlap End"));
+	switch (obstacle_type)
+	{
+	case ObstacleTypeEnum::ThinSmall:
+		thinSmallObstacle();
+		break;
+	case ObstacleTypeEnum::ThinMedium:
+		thinMediumObstacle();
+		break;
+	case ObstacleTypeEnum::ThinHuge:
+		thinHugeObstacle();
+		break;
+	case ObstacleTypeEnum::WideSmall:
+		wideSmallObstacle();
+		break;
+	case ObstacleTypeEnum::WideMedium:
+		wideMediumObstacle();
+		break;
+	case ObstacleTypeEnum::WideHuge:
+		wideHugeObstacle();
+		break;
+	default:
+		break;
 	}
+}
+
+void UObstacleComponent::thinSmallObstacle()
+{
+	is_obstacle_thin_small = true;//switching condition in BP of the char; 
+}
+
+void UObstacleComponent::thinMediumObstacle()
+{
+}
+
+void UObstacleComponent::thinHugeObstacle()
+{
+}
+
+void UObstacleComponent::wideSmallObstacle()
+{
+}
+
+void UObstacleComponent::wideMediumObstacle()
+{
+}
+
+void UObstacleComponent::wideHugeObstacle()
+{
 }

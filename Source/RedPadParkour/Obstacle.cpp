@@ -1,5 +1,5 @@
 #include "Obstacle.h"
-#include <Kismet/KismetMathLibrary.h>
+
 
 AObstacle::AObstacle()
 {
@@ -18,16 +18,22 @@ void AObstacle::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AObstacle::interact(UCharacterMovementComponent* movement_component)
+TEnumAsByte<ObstacleTypeEnum> AObstacle::getObstacleType()
 {
-	movement_component_from_interaction = movement_component;
-	player = movement_component_from_interaction->GetOwner();
-	obstacleTypeSelector();
+	return obstacle_type;
 }
+
+//void AObstacle::interact(UCharacterMovementComponent* movement_component, UObstacleComponent* obstacle_component)
+//{
+//	//movement_component_from_interaction = movement_component;
+//	//player = movement_component_from_interaction->GetOwner();
+//	obstacle_component->getObstacleType(obstacle_type);
+//	//obstacleTypeSelector();
+//}
 
 void AObstacle::obstacleTypeSelector()
 {
-	if (movement_component_from_interaction) {
+	/*if (movement_component_from_interaction) {
 		switch (obstacle_type)
 		{
 		case ObstacleType::ThinSmall:
@@ -51,7 +57,7 @@ void AObstacle::obstacleTypeSelector()
 		default:
 			break;
 		}
-	}
+	}*/
 }
 
 void AObstacle::thinSmallObstacle()
@@ -63,27 +69,22 @@ void AObstacle::thinSmallObstacle()
 
 void AObstacle::thinMediumObstacle()
 {
-	playerPushForwardLogic();
 }
 
 void AObstacle::thinHugeObstacle()
 {
-	playerPushForwardLogic();
 }
 
 void AObstacle::wideSmallObstacle()
 {
-	movement_component_from_interaction->DoJump(false);
 }
 
 void AObstacle::wideMediumObstacle()
 {
-	playerPushForwardUpLogic();
 }
 
 void AObstacle::wideHugeObstacle()
 {
-	playerPushForwardUpLogic();
 }
 
 void AObstacle::playerPushForwardLogic()

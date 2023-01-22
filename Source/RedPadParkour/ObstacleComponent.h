@@ -3,10 +3,12 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Components/BoxComponent.h"
-#include "Obstacle.h"
 #include "StateSwitcher.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "ObstacleType.h"
+#include "Obstacle.h"
+
 
 #include "ObstacleComponent.generated.h"
 
@@ -20,7 +22,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	AObstacle* interacted_obstacle;
+	bool is_obstacle_thin_small{ false };
 
 protected:
 	virtual void BeginPlay() override;
@@ -28,7 +30,6 @@ protected:
 private:
 	UPROPERTY()
 	AActor* owner;
-	
 	UPROPERTY()
 	UBoxComponent* collision_box;
 	UPROPERTY()
@@ -52,4 +53,12 @@ private:
 	bool is_actor_able_to_parkour();
 	void startInteraction(AActor* obstacle);
 	void changeState(StateType state);
+
+	void obstacleTypeSelector(TEnumAsByte<ObstacleTypeEnum> obstacle_type);
+	void thinSmallObstacle();
+	void thinMediumObstacle();
+	void thinHugeObstacle();
+	void wideSmallObstacle();
+	void wideMediumObstacle();
+	void wideHugeObstacle();
 };
